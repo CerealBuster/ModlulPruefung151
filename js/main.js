@@ -20,7 +20,52 @@ function createProjectList(){
 		//$('#projektdatenListe').listview('refresh');		
 	});
 }
+function orderPorjectList(){
+
+
+}
+function createAuftraggeberList(){
+	$.post('php/auftraggeberdatenSelect.php',function(query){
+		var tabelle = '<table border = 1><tr><th>Bezeichnung</th><th>Kurzname</th><th>Strasse</th><th>PLZ</th><th>Ort</th><th>Tel</th><th>Fax</th><th>Email</th><th>Sonderkonditionen</th></tr>'
+		var entrynames = query.split(";");
+		var x = 0;
+        while(x < entrynames.length-1){
+            tabelle += '<tr>';
+            for(i= 0;i<=8;i++){
+              tabelle += '<td>'+entrynames[x]+'</td>';
+                x++;
+            }
+            tabelle += '</tr>';
+        }
+        tabelle += '</table>'
+        $('#auftraggeberDaten').append(tabelle);
+	
+	});
+}
+function createAbteilungsList(){
+	$.post('php/abteilungsdatenSelect.php',function(query){
+		var tabelle = '<table border = 1><tr><th>Abteilungs Name</th><th>Bezeichnung</th></tr>'
+		var entrynames = query.split(";");
+		var x = 0;
+        while(x < entrynames.length-1){
+            tabelle += '<tr>';
+            for(i= 0;i<=1;i++){
+              tabelle += '<td>'+entrynames[x]+'</td>';
+                x++;
+            }
+            tabelle += '</tr>';
+        }
+        tabelle += '</table>'
+        $('#abteilungsDaten').append(tabelle);
+	
+	});
+}
 
  $(document).ready(function (){
      createProjectList();
+     createAuftraggeberList();
+     createAbteilungsList();
+     $("#projektfilter").bind("change", function() {
+        alert($(this).val()); 
+    });
  });
