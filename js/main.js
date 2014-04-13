@@ -3,14 +3,21 @@ Kreiert Projekt liste
 */
 function createProjectList(){
 	$.post('php/projektdatenSelect.php',function(query){
-		var tabelle = '<table border = 1 id ="ptable"><tr><th>Projekt bezeichnung</th><th>beschreibung</th><th>beginn</th><th>ende</th><th>auftragsvolumen</th><th>Auftrags bezeichnung</th><th>Projektleiter Name</th><th>Projektleiter Vorname</th></tr>';
+		var tabelle = '<table border = 1 id ="ptable"><tr><th>Projekt bezeichnung</th><th>beschreibung</th><th>beginn</th><th>ende</th><th>auftragsvolumen</th><th>Auftrags bezeichnung</th><th>Projektleiter Name</th><th>Projektleiter Vorname</th><th>Optionen</th></tr>';
 		var entrynames = query.split(";");
 		var x = 0;
         while(x < entrynames.length-1){
             tabelle += '<tr>';
-            for(i= 0;i<=7;i++){
-              tabelle += '<td>'+entrynames[x]+'</td>';
-                x++;
+            for(i= 0;i<=8;i++){
+              if(i < 8){       
+                  tabelle += '<td>'+entrynames[x]+'</td>';
+                   //x++;
+              }
+              else{
+                tabelle += '<td><button class="optionLink" onclick="alert($(this).val())" value= '+entrynames[x]+'>Delete</button><button class="optionLink" onclick="alert($(this).val())" value= '+entrynames[x]+'>Edit</button></td>'; 
+                
+              }
+              x++;
             /*tabelle += '<tr><td>'+entrynames[0]+'</td><td>'+entrynames[1]+'</td><td>'+entrynames[2]+'</td><td>'+entrynames[3]+'</td><td>'+entrynames[4]+'</td><td>'+entrynames[5]+'</td><td>'+entrynames[6]+'</td><td>'+entrynames[7]+'</td></td></tr>';
             */
             }
@@ -28,14 +35,20 @@ function orderPorjectList(selection){
     var selectedOrder = selection.trim();
     $('#ptable').remove();
     $.post('php/orderProjectList.php',{selectedOrder:selectedOrder},function(orderedList){
-        var tabelle = '<table border = 1 id = "ptable"><tr><th>Projekt bezeichnung</th><th>beschreibung</th><th>beginn</th><th>ende</th><th>auftragsvolumen</th><th>Auftrags bezeichnung</th><th>Projektleiter Name</th><th>Projektleiter Vorname</th></tr>';
+        var tabelle = '<table border = 1 id = "ptable"><tr><th>Projekt bezeichnung</th><th>beschreibung</th><th>beginn</th><th>ende</th><th>auftragsvolumen</th><th>Auftrags bezeichnung</th><th>Projektleiter Name</th><th>Projektleiter Vorname</th><th>Optionen</th></tr>';
         var entrynames = orderedList.split(";");
 		var x = 0;
         while(x < entrynames.length-1){
             tabelle += '<tr>';
-            for(i= 0;i<=7;i++){
-              tabelle += '<td>'+entrynames[x]+'</td>';
-                x++;
+            for(i= 0;i<=8;i++){
+              
+                if( i < 8){    
+                tabelle += '<td>'+entrynames[x]+'</td>';
+              }
+              else{
+                tabelle += '<td><button class="optionLink" onclick="alert($(this).val())" value= '+entrynames[x]+'>Delete</button><button class="optionLink" onclick="alert($(this).val())" value= '+entrynames[x]+'>Edit</button></td>'; 
+              }
+              x++;
             }
             tabelle += '</tr>';
         }

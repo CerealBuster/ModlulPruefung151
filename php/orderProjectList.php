@@ -1,6 +1,7 @@
 <?php
 //session_start ();
 $mysqli4 = new mysqli("localhost", "root", "","zool");
+$mysqli4->set_charset("utf8");
 if ($mysqli4 -> connect_error)
 {
   echo "Keine Verbindung zur Datenbank";
@@ -10,7 +11,7 @@ if ($mysqli4 -> connect_error)
 //$benutzername = $_SESSION["user_nickname"];
 $rowName = htmlspecialchars($_POST['selectedOrder']);
 
-$query = "SELECT p.bezeichnung, p.beschreibung, p.beginn, p.ende, p.auftragsvolumen,a.bezeichnung AS pbezeichnung,m.p_name,m.vorname 
+$query = "SELECT p.bezeichnung, p.beschreibung, p.beginn, p.ende, p.auftragsvolumen,a.bezeichnung AS pbezeichnung,m.p_name,m.vorname ,p.projekt_id 
           FROM projekt p
           JOIN auftraggeber a
           ON p.auftraggeber_id = a.auftraggeber_id
@@ -38,7 +39,7 @@ else
   while($data4 = $sql4 -> fetch_array()){
   	$str .=$data4['bezeichnung'].";".$data4['beschreibung'].";".$data4['beginn'].";"
         .$data4['ende'].";".$data4['auftragsvolumen'].";".$data4['pbezeichnung'].";"
-        .$data4['p_name'].";".$data4['vorname'].";";
+        .$data4['p_name'].";".$data4['vorname'].";".$data4['projekt_id'].";";
   }
  
   

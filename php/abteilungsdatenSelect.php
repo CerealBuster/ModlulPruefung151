@@ -1,5 +1,6 @@
 <?php
 $mysqli2 = new mysqli("localhost", "root", "","zool");
+$mysqli2->set_charset("utf8");
 if ($mysqli2 -> connect_error)
 {
   echo "Keine Verbindung zur Datenbank";

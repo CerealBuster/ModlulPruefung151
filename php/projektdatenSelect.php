@@ -1,5 +1,6 @@
 <?php
 $mysqli3 = new mysqli("localhost", "root", "","zool");
+$mysqli3->set_charset("utf8");
 if ($mysqli3 -> connect_error)
 {
   echo "Keine Verbindung zur Datenbank";
@@ -9,7 +10,7 @@ if ($mysqli3 -> connect_error)
 //$nachname = htmlspecialchars($_POST['name']);
 //$vorname=htmlspecialchars($_POST['vorname']);
 
-$query = "SELECT p.bezeichnung, p.beschreibung, p.beginn, p.ende, p.auftragsvolumen,a.bezeichnung AS pbezeichnung,m.p_name,m.vorname 
+$query = "SELECT p.bezeichnung, p.beschreibung, p.beginn, p.ende, p.auftragsvolumen,a.bezeichnung AS pbezeichnung,m.p_name,m.vorname,p.projekt_id 
           FROM projekt p
           JOIN auftraggeber a
           ON p.auftraggeber_id = a.auftraggeber_id
@@ -35,7 +36,7 @@ else
   while($data3 = $sql3 -> fetch_array()){
     $str .=$data3['bezeichnung'].";".$data3['beschreibung'].";".$data3['beginn'].";"
         .$data3['ende'].";".$data3['auftragsvolumen'].";".$data3['pbezeichnung'].";"
-        .$data3['p_name'].";".$data3['vorname'].";";
+        .$data3['p_name'].";".$data3['vorname'].";".$data3['projekt_id'].";";
   }
  
   
