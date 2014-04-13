@@ -9,9 +9,21 @@
     <body>
         <h1>Auftraggeber Daten</h1>
         <div id = 'auftraggeberDaten'></div>
-        <!--<table id='projektListe'>
-            <tr><th>Projekt bezeichnung</th><th>beschreibung</th><th>beginn</th><th>ende</th><th>auftragsvolumen</th>
-                <th>Auftrags bezeichnung</th><th>Projektleiter Name</th><th>Projektleiter Vorname</th></tr>
-        </table>-->
+        <div class= 'filter'>
+            <p>Sortieren nach</p>
+           <form action="" >
+           <select name="Filter" id = 'auftraggeberfilter'>
+           <option value="bezeichnung">Bezeichnung</option>
+           <option value="kurzname">Kurzname</option>
+           <option value="adr_strasse">Strasse</option>
+           <option value="adr_plz">PLZ</option>
+           <option value ="adr_ort">Ort</option>
+           <option value ="tel">Tel</option>
+            <option value ="fax">Fax</option>
+            <option value ="email">Email</option>
+            <option value = "sonderkonditionen">Sonderkonditionen</option>
+           </select>
+           </form>
+        </div>
     </body>
 </html>
