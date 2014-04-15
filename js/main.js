@@ -14,7 +14,7 @@ function createProjectList(){
                    //x++;
               }
               else{
-                tabelle += '<td><button class="optionLink" onclick="alert($(this).val())" value= '+entrynames[x]+'>Delete</button><button class="optionLink" onclick="alert($(this).val())" value= '+entrynames[x]+'>Edit</button></td>'; 
+                tabelle += '<td><button class="optionLink" onclick="deleteProject($(this).val())" value= '+entrynames[x]+'>Delete</button><button class="optionLink" onclick="editProjectList($(this).val())" value= '+entrynames[x]+'>Edit</button></td>'; 
                 
               }
               x++;
@@ -46,7 +46,7 @@ function orderPorjectList(selection){
                 tabelle += '<td>'+entrynames[x]+'</td>';
               }
               else{
-                tabelle += '<td><button class="optionLink" onclick="alert($(this).val())" value= '+entrynames[x]+'>Delete</button><button class="optionLink" onclick="alert($(this).val())" value= '+entrynames[x]+'>Edit</button></td>'; 
+                tabelle += '<td><button class="optionLink" onclick="deleteProject($(this).val())" value= '+entrynames[x]+'>Delete</button><button class="optionLink" onclick="editProjectList($(this).val())" value= '+entrynames[x]+'>Edit</button></td>'; 
               }
               x++;
             }
@@ -59,6 +59,94 @@ function orderPorjectList(selection){
 
 }
 
+
+function editProjectList(primaryKey){
+        var key = primaryKey.trim();
+        //var win = window.open("http://localhost/ModlulPruefung151/projektInsert.html","_self");
+
+    
+    /*url = "http://localhost/ModlulPruefung151/projektInsert.html";
+    document.location.href = url;*/
+    $('#editForm').remove();
+    $.post('php/selectSingleProjekt.php',{key:key},function(orderedList){
+        var entrynames = orderedList.split(";");
+        var form = '<form id ="editForm"><fieldset><legend>Projekt Daten eingabe:</legend><label for="projektBezeichnung">Projekt Bezeichnung</label><input type="text" name="projektBezeichnung" id="bezeichnung1" required/><br><label for="projektBeschreibung" >Projekt Beschreibung</label><input type="text" name="projektBeschreibung" id="projektBeschreibung1" required/><br><label for ="beginn">Projekt Beginn</label><input type="date" name="beginn" id="beginn1"/><br><label for ="ende">Projekt Ende</label><input type= "date" name="ende" id="ende1"/><br><label for ="auftragsvolumen">Auftragsvolumen</label><input type="number" name="auftragsvolumen" id ="auftragsvolumen1" /><br><label for ="abezeichnung" >Auftragsgeber Bezeichnung</label><input type="number" name="abezeichnung1" id = "abezeichnung1" required/><br><label for = "mName">ProektLeiter</label><input type ="number" name ="mName" id = "mName1" required/><br></fieldset></form><input type="submit" id="submit" data-icon="check" value="Speichern" onclick="changeProject()"/><input type="reset" data-icon="delete" value="Abbrechen"/>';
+        $('#newProjekt').append(form);
+        
+        $("#bezeichnung1").val(entrynames[0]);
+		$("#projektBeschreibung1").val(entrynames[1]);
+		$('#beginn1').val(entrynames[2]);
+		$('#ende1').val(entrynames[3]);
+		$('#auftragsvolumen1').val(+entrynames[4]);
+        $('#abezeichnung1').val(+entrynames[5]);
+        $('#mName1').val(+entrynames[6]);
+    });
+
+}
+
+function deleteProject(primaryKey){
+    var key = primaryKey.trim();
+    var okDel = confirm("Wirklich löschen?");
+    if (okDel == true){
+        $.post('php/delProjekt.php',{key:key},function(flag){
+            if(flag == "1"){
+            $('#ptable').remove();
+            createProjectList();
+            }
+        });
+    }
+}
+function changeProject(){
+    
+    var alertFlag = false;
+    var alertstring ="Error: ";
+    var bezeichnung1 =  $("#bezeichnung1").val();
+    var projektbeschr = $("#projektBeschreibung1").val();
+    var beginn1 =  $('#beginn1').val();
+    var beginDatum = beginn1.match(/^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/);
+    var ende1 = $('#ende1').val();
+    var endDatum = ende1.match(/^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/);
+    var auftragsvol = $('#auftragsvolumen1').val();
+    var abteilungName = $('#abezeichnung1').val();
+    var projektLeit =  $('#mName1').val();
+
+    if (bezeichnung1 == ""){
+        alertstring += "Projektbezeichnung nicht vorhanden\n"; 
+        alertFlag = true;
+    }
+    else if(beginDatum === null){
+        alertstring += "Falsches Datumformat in Beginndatum\n";
+        alertFlag = true;
+    }
+
+    else if(endDatum === null){
+        alertstring += "Falsches Datumformat in Enddatum\n";
+        alertFlag = true;
+    }
+    
+    else if(isNaN(auftragsvol) == true || auftragsvol == ""){
+        alertstring += "Auftragsvolumen ist nicht Nummerisch\n";
+        alertFlag = true;
+    }
+    else if(isNaN(abteilungName) == true || abteilungName ==""){
+        alertstring += "Abteilungs ID ist nicht Nummerisch\n";
+        alertFlag = true;   
+    }
+    else if(isNaN(projektLeit) == true || projektLeit == ""){
+        alertstring += "Projektleiter ID ist nicht Nummerisch\n";
+        alertFlag = true;  
+    }
+    
+    if (alertFlag == true){
+        alert(alertstring);
+    }
+    else{
+       var okChange = confirm("sure?")
+        if( okChange == true){
+            alert("change");
+        }
+    }
+}
 
 function createAuftraggeberList(){
 	$.post('php/auftraggeberdatenSelect.php',function(query){

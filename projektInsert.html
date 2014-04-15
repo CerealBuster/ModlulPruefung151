@@ -9,10 +9,25 @@
     <body>
         <div id= "newProjekt">
            <form>
-               <label for="newName">Name</label>
-               <input type="text" name="name" id="newName" required/>
-               <label for="newVorname" >Vorname</label> 
-               <input type="text" name="vorname" id="newVorname" required/>
+               <fieldset>
+               <legend>Projekt Daten eingabe:</legend>
+               <label for="projektBezeichnung">Projekt Bezeichnung</label>
+               <input type="text" name="projektBezeichnung" id="bezeichnung" required/><br>
+               <label for="projektBeschreibung" >Projekt Beschreibung</label> 
+               <input type="text" name="projektBeschreibung" id="projektBeschreibung" required/><br>
+               <label for ="beginn">Projekt Beginn</label>
+               <input type="date" name="beginn" id="beginn"/><br>
+               <label for ="ende">Projekt Ende</label>
+               <input type= "date" name="ende" id="ende"/><br>
+               <label for ="auftragsvolumen">Auftragsvolumen</label>
+               <input type="number" name="auftragsvolumen" id ="auftragsvolumen" /><br>
+               <!--<label for ="abezeichnung" >Auftragsgeber Bezeichnung</label>
+               <input type="text" name="abezeichnung" id = "abezeichnung"/>
+               <label for = "mName">Mitarbeiter Name</label>
+               <input type ="text" name ="mName" id = "mName"/><br>
+               <label for ="mVorname">Mitarbeiter Vorname</label>
+               <input type ="text" name="vName" id ="vName" /><br>-->
+               </fieldset>
            </form>
             <input type="submit" id="submit" data-icon="check" value="Speichern"/>
             <input type="reset" data-icon="delete" value="Abbrechen"/>
