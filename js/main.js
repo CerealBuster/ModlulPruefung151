@@ -70,7 +70,7 @@ function editProjectList(primaryKey){
     $('#editForm').remove();
     $.post('php/selectSingleProjekt.php',{key:key},function(orderedList){
         var entrynames = orderedList.split(";");
-        var form = '<form id ="editForm"><fieldset><legend>Projekt Daten eingabe:</legend><label for="projektBezeichnung">Projekt Bezeichnung</label><input type="text" name="projektBezeichnung" id="bezeichnung1" required/><br><label for="projektBeschreibung" >Projekt Beschreibung</label><input type="text" name="projektBeschreibung" id="projektBeschreibung1" required/><br><label for ="beginn">Projekt Beginn</label><input type="date" name="beginn" id="beginn1"/><br><label for ="ende">Projekt Ende</label><input type= "date" name="ende" id="ende1"/><br><label for ="auftragsvolumen">Auftragsvolumen</label><input type="number" name="auftragsvolumen" id ="auftragsvolumen1" /><br><label for ="abezeichnung" >Auftragsgeber Bezeichnung</label><input type="number" name="abezeichnung1" id = "abezeichnung1" required/><br><label for = "mName">ProektLeiter</label><input type ="number" name ="mName" id = "mName1" required/><br></fieldset></form><input type="submit" id="submit" data-icon="check" value="Speichern" onclick="changeProject()"/><input type="reset" data-icon="delete" value="Abbrechen"/>';
+        var form = '<form id ="editForm"><fieldset><legend>Projekt Daten eingabe:</legend><label for="projektBezeichnung">Projekt Bezeichnung</label><input type="text" name="projektBezeichnung" id="bezeichnung1" required/><br><label for="projektBeschreibung" >Projekt Beschreibung</label><input type="text" name="projektBeschreibung" id="projektBeschreibung1" required/><br><label for ="beginn">Projekt Beginn</label><input type="date" name="beginn" id="beginn1"/><br><label for ="ende">Projekt Ende</label><input type= "date" name="ende" id="ende1"/><br><label for ="auftragsvolumen">Auftragsvolumen</label><input type="number" name="auftragsvolumen" id ="auftragsvolumen1" /><br><label for ="abezeichnung" >Auftragsgeber Bezeichnung</label><input type="number" name="abezeichnung1" id = "abezeichnung1" required/><br><label for = "mName">ProektLeiter</label><input type ="number" name ="mName" id = "mName1" required/><br><input type="submit" id="submit" data-icon="check" value="Speichern" onclick="changeProject(2,'+key+')"/><input type="reset" data-icon="delete" value="Abbrechen"/></fieldset></form>';
         $('#newProjekt').append(form);
         
         $("#bezeichnung1").val(entrynames[0]);
@@ -82,6 +82,13 @@ function editProjectList(primaryKey){
         $('#mName1').val(+entrynames[6]);
     });
 
+}
+
+function newProject(){
+
+    $('#editForm').remove();
+    var form = '<form id ="editForm"><fieldset><legend>Projekt Daten eingabe:</legend><label for="projektBezeichnung">Projekt Bezeichnung</label><input type="text" name="projektBezeichnung" id="bezeichnung1" required/><br><label for="projektBeschreibung" >Projekt Beschreibung</label><input type="text" name="projektBeschreibung" id="projektBeschreibung1" required/><br><label for ="beginn">Projekt Beginn</label><input type="date" name="beginn" id="beginn1"/><br><label for ="ende">Projekt Ende</label><input type= "date" name="ende" id="ende1"/><br><label for ="auftragsvolumen">Auftragsvolumen</label><input type="number" name="auftragsvolumen" id ="auftragsvolumen1" /><br><label for ="abezeichnung" >Auftragsgeber Bezeichnung</label><input type="number" name="abezeichnung1" id = "abezeichnung1" required/><br><label for = "mName">ProektLeiter</label><input type ="number" name ="mName" id = "mName1" required/><br><input type="submit" id="submit" data-icon="check" value="Speichern" onclick="changeProject(1, 0)"/><input type="reset" data-icon="delete" value="Abbrechen"/></fieldset></form>';
+ $('#newProjekt').append(form);
 }
 
 function deleteProject(primaryKey){
@@ -96,8 +103,9 @@ function deleteProject(primaryKey){
         });
     }
 }
-function changeProject(){
+function changeProject(option, pk){
     
+    var primPk = pk;
     var alertFlag = false;
     var alertstring ="Error: ";
     var bezeichnung1 =  $("#bezeichnung1").val();
@@ -143,7 +151,25 @@ function changeProject(){
     else{
        var okChange = confirm("sure?")
         if( okChange == true){
-            alert("change");
+            
+            if (option == 1){
+
+                $.post('php/insertProject.php',{bezeichnung1:bezeichnung1,beginn1:beginn1,ende1:ende1,auftragsvol:auftragsvol,abteilungName:abteilungName,projektLeit:projektLeit});
+
+                
+            }
+            else if (option == 2){
+                alert("update");
+                //$.post('php/updateProject.php',{primPK:primPK,bezeichnung});
+                $.post('php/updateProject.php',{primPk:primPk,bezeichnung1:bezeichnung1,beginn1:beginn1,ende1:ende1,auftragsvol:auftragsvol,abteilungName:abteilungName,projektLeit:projektLeit});
+                //$('#ptable').remove();
+                //createProjectList();
+            }
+            else{
+                alert("wrong option");
+            }
+            $('#ptable').remove();
+            createProjectList();
         }
     }
 }
@@ -242,4 +268,7 @@ function orderAbteilungsList(selection){
      $("#abteilungsfilter").bind("change", function() {
         orderAbteilungsList($(this).val()); 
        });
+     $("#CreateNew").on('click', function(){
+        newProject();
+     });
  });
