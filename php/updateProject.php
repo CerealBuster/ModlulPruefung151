@@ -11,6 +11,7 @@ if ($mysqli9 -> connect_error)
 
 $pk = htmlspecialchars($_POST['primPk']);
 $bezeichnung1 = htmlspecialchars($_POST['bezeichnung1']);
+$beschreibung = htmlspecialchars($_POST['projektbeschr']);
 $beginDatum = htmlspecialchars($_POST['beginn1']);
 $endDatum = htmlspecialchars($_POST['ende1']);
 $auftragsvol = htmlspecialchars($_POST['auftragsvol']);
@@ -19,7 +20,7 @@ $projektLeit = htmlspecialchars($_POST['projektLeit']);
 
 
 $query = "UPDATE projekt 
-          SET bezeichnung = '$bezeichnung1', beginn = '$beginDatum', ende = '$endDatum', auftragsvolumen = $auftragsvol,
+          SET bezeichnung = '$bezeichnung1',beschreibung = '$beschreibung', beginn = '$beginDatum', ende = '$endDatum', auftragsvolumen = $auftragsvol,
           auftraggeber_id = $abteilungName, projektleiter_id = $projektLeit
           WHERE projekt_id = $pk";
 

@@ -70,7 +70,7 @@ function editProjectList(primaryKey){
     $('#editForm').remove();
     $.post('php/selectSingleProjekt.php',{key:key},function(orderedList){
         var entrynames = orderedList.split(";");
-        var form = '<form id ="editForm"><fieldset><legend>Projekt Daten eingabe:</legend><label for="projektBezeichnung">Projekt Bezeichnung</label><input type="text" name="projektBezeichnung" id="bezeichnung1" required/><br><label for="projektBeschreibung" >Projekt Beschreibung</label><input type="text" name="projektBeschreibung" id="projektBeschreibung1" required/><br><label for ="beginn">Projekt Beginn</label><input type="date" name="beginn" id="beginn1"/><br><label for ="ende">Projekt Ende</label><input type= "date" name="ende" id="ende1"/><br><label for ="auftragsvolumen">Auftragsvolumen</label><input type="number" name="auftragsvolumen" id ="auftragsvolumen1" /><br><label for ="abezeichnung" >Auftragsgeber Bezeichnung</label><input type="number" name="abezeichnung1" id = "abezeichnung1" required/><br><label for = "mName">ProektLeiter</label><input type ="number" name ="mName" id = "mName1" required/><br><input type="submit" id="submit" data-icon="check" value="Speichern" onclick="changeProject(2,'+key+')"/><input type="reset" data-icon="delete" value="Abbrechen"/></fieldset></form>';
+        var form = '<form id ="editForm" method="post"><fieldset><legend>Projekt Daten eingabe:</legend><label for="projektBezeichnung">Projekt Bezeichnung</label><input type="text" name="projektBezeichnung" id="bezeichnung1" required title ="Titel des Projektes"/><br><label for="projektBeschreibung" >Projekt Beschreibung</label><input type="text" name="projektBeschreibung" id="projektBeschreibung1" required title ="beschreibung des Projektes"/><br><label for ="beginn">Projekt Beginn</label><input type="date" name="beginn" id="beginn1"title ="Vormat :YY-MM-DDY"/><br><label for ="ende">Projekt Ende</label><input type= "date" name="ende" id="ende1" title ="Format: YY-MM-DD"/><br><label for ="auftragsvolumen">Auftragsvolumen</label><input type="number" name="auftragsvolumen" id ="auftragsvolumen1" title ="Volumen des Auftrages" /><br><label for ="abezeichnung" >Auftragsgeber Bezeichnung</label><input type="number" name="abezeichnung1" id = "abezeichnung1" required title ="ID der Abteilung"/><br><label for = "mName">ProektLeiter</label><input type ="number" name ="mName" id = "mName1" required title ="ID des Projektleiters"/><br><input type="submit" id="submit" data-icon="check" value="Speichern" onclick="changeProject(2,'+key+',event)"/><input type="reset" data-icon="delete" value="Abbrechen"/></fieldset></form>';
         $('#newProjekt').append(form);
         
         $("#bezeichnung1").val(entrynames[0]);
@@ -87,7 +87,7 @@ function editProjectList(primaryKey){
 function newProject(){
 
     $('#editForm').remove();
-    var form = '<form id ="editForm"><fieldset><legend>Projekt Daten eingabe:</legend><label for="projektBezeichnung">Projekt Bezeichnung</label><input type="text" name="projektBezeichnung" id="bezeichnung1" required/><br><label for="projektBeschreibung" >Projekt Beschreibung</label><input type="text" name="projektBeschreibung" id="projektBeschreibung1" required/><br><label for ="beginn">Projekt Beginn</label><input type="date" name="beginn" id="beginn1"/><br><label for ="ende">Projekt Ende</label><input type= "date" name="ende" id="ende1"/><br><label for ="auftragsvolumen">Auftragsvolumen</label><input type="number" name="auftragsvolumen" id ="auftragsvolumen1" /><br><label for ="abezeichnung" >Auftragsgeber Bezeichnung</label><input type="number" name="abezeichnung1" id = "abezeichnung1" required/><br><label for = "mName">ProektLeiter</label><input type ="number" name ="mName" id = "mName1" required/><br><input type="submit" id="submit" data-icon="check" value="Speichern" onclick="changeProject(1, 0)"/><input type="reset" data-icon="delete" value="Abbrechen"/></fieldset></form>';
+    var form = '<form id ="editForm" method="post"><fieldset><legend>Projekt Daten eingabe:</legend><label for="projektBezeichnung">Projekt Bezeichnung</label><input type="text" name="projektBezeichnung" id="bezeichnung1" required/><br><label for="projektBeschreibung" >Projekt Beschreibung</label><input type="text" name="projektBeschreibung" id="projektBeschreibung1" required/><br><label for ="beginn">Projekt Beginn</label><input type="date" name="beginn" id="beginn1"title ="Fomrat YY-MM-DD"/><br><label for ="ende">Projekt Ende</label><input type= "date" name="ende" id="ende1" title ="Format: YY_MM_DD"/><br><label for ="auftragsvolumen">Auftragsvolumen</label><input type="number" name="auftragsvolumen" id ="auftragsvolumen1" title ="Auftragsvolumen" /><br><label for ="abezeichnung" >Auftragsgeber Bezeichnung</label><input type="number" name="abezeichnung1" id = "abezeichnung1" required title ="Id Der abteilung"/><br><label for = "mName">ProektLeiter</label><input type ="number" name ="mName" id = "mName1" required title ="ID des Projekteliters"/><br><input type="submit" id="submit" data-icon="check" value="Speichern" onclick="changeProject(1, 0,event)"/><input type="reset" data-icon="delete" value="Abbrechen"/></fieldset></form>';
  $('#newProjekt').append(form);
 }
 
@@ -104,7 +104,8 @@ function deleteProject(primaryKey){
     }
 }
 function changeProject(option, pk){
-    
+    //event.stopPropagation();
+	//event.preventDefault();
     var primPk = pk;
     var alertFlag = false;
     var alertstring ="Error: ";
@@ -154,22 +155,22 @@ function changeProject(option, pk){
             
             if (option == 1){
 
-                $.post('php/insertProject.php',{bezeichnung1:bezeichnung1,beginn1:beginn1,ende1:ende1,auftragsvol:auftragsvol,abteilungName:abteilungName,projektLeit:projektLeit});
+                $.post('php/insertProject.php',{bezeichnung1:bezeichnung1,projektbeschr:projektbeschr,beginn1:beginn1,ende1:ende1,auftragsvol:auftragsvol,abteilungName:abteilungName,projektLeit:projektLeit});
 
                 
             }
             else if (option == 2){
                 alert("update");
                 //$.post('php/updateProject.php',{primPK:primPK,bezeichnung});
-                $.post('php/updateProject.php',{primPk:primPk,bezeichnung1:bezeichnung1,beginn1:beginn1,ende1:ende1,auftragsvol:auftragsvol,abteilungName:abteilungName,projektLeit:projektLeit});
-                //$('#ptable').remove();
-                //createProjectList();
+                $.post('php/updateProject.php',{primPk:primPk,bezeichnung1:bezeichnung1,projektbeschr:projektbeschr,beginn1:beginn1,ende1:ende1,auftragsvol:auftragsvol,abteilungName:abteilungName,projektLeit:projektLeit});
+
             }
             else{
                 alert("wrong option");
             }
             $('#ptable').remove();
             createProjectList();
+            $('#editForm').remove();
         }
     }
 }
@@ -215,6 +216,7 @@ function orderAuftraggeberList(selection){
 }
 
 function createAbteilungsList(){
+
 	$.post('php/abteilungsdatenSelect.php',function(query){
 		var tabelle = '<table border = 1 id = "abTable"><tr><th>Abteilungs Name</th><th>Bezeichnung</th></tr>';
 		var entrynames = query.split(";");
@@ -254,11 +256,55 @@ function orderAbteilungsList(selection){
 	});
 
 }
+function tryLogin(){
+    
+    event.stopPropagation();
+	event.preventDefault();
+    
+	var password = $('#passwort').val();
+	var benutzername = $('#benutzername').val();
+    
+    
+	if (benutzername <= " " || password <= " "){
+		
+		alert("benutzerdaten Falsch")
+
+	}
+	else{
+        var password1 = password;
+        var benutzername1 = benutzername;
+
+        
+		$.post('php/login.php',{password1:password1,benutzername1:benutzername1},function(flag){
+            flag = $.trim(flag);
+            
+			if(flag == 'loginok'){
+                window.open("http://localhost/ModlulPruefung151/hallo.php","_self");
+			
+				
+			}
+			else{
+                alert("Login was not succesful");
+			}
+		});
+
+	}
+	
+}
+function tryLogout(event){
+	event.stopPropagation();
+	event.preventDefault();
+	$.post('php/logout.php');
+    window.open("http://localhost/ModlulPruefung151/index.html","_self");
+}
 
  $(document).ready(function (){
      createProjectList();
      createAuftraggeberList();
      createAbteilungsList();
+     
+     $("#login").on('click',tryLogin);
+     $("#logoutButton").on('click',tryLogout);
      $("#projektfilter").bind("change", function() {
         orderPorjectList($(this).val()); 
        });
