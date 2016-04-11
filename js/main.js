@@ -70,7 +70,7 @@ function editProjectList(primaryKey){
     $('#editForm').remove();
     $.post('php/selectSingleProjekt.php',{key:key},function(orderedList){
         var entrynames = orderedList.split(";");
-        var form = '<form id ="editForm" method="post"><fieldset><legend>Projekt Daten eingabe:</legend><label for="projektBezeichnung">Projekt Bezeichnung</label><input type="text" name="projektBezeichnung" id="bezeichnung1" required title ="Titel des Projektes"/><br><label for="projektBeschreibung" >Projekt Beschreibung</label><input type="text" name="projektBeschreibung" id="projektBeschreibung1" required title ="beschreibung des Projektes"/><br><label for ="beginn">Projekt Beginn</label><input type="date" name="beginn" id="beginn1"title ="Vormat :YY-MM-DDY"/><br><label for ="ende">Projekt Ende</label><input type= "date" name="ende" id="ende1" title ="Format: YY-MM-DD"/><br><label for ="auftragsvolumen">Auftragsvolumen</label><input type="number" name="auftragsvolumen" id ="auftragsvolumen1" title ="Volumen des Auftrages" /><br><label for ="abezeichnung" >Auftragsgeber Bezeichnung</label><input type="number" name="abezeichnung1" id = "abezeichnung1" required title ="ID der Abteilung"/><br><label for = "mName">ProektLeiter</label><input type ="number" name ="mName" id = "mName1" required title ="ID des Projektleiters"/><br><input type="submit" id="submit" data-icon="check" value="Speichern" onclick="changeProject(2,'+key+',event)"/><input type="reset" data-icon="delete" value="Abbrechen"/></fieldset></form>';
+        var form = '<form id ="editForm" method="post"><fieldset><legend>Projekt Daten eingabe:</legend><label for="projektBezeichnung">Projekt Bezeichnung</label><input type="text" name="projektBezeichnung" id="bezeichnung1" required title ="Titel des Projektes"/><br><label for="projektBeschreibung" >Projekt Beschreibung</label><input type="text" name="projektBeschreibung" id="projektBeschreibung1" required title ="beschreibung des Projektes"/><br><label for ="beginn">Projekt Beginn</label><input type="date" name="beginn" id="beginn1"title ="Vormat :YY-MM-DDY"/><br><label for ="ende">Projekt Ende</label><input type= "date" name="ende" id="ende1" title ="Format: YY-MM-DD"/><br><label for ="auftragsvolumen">Auftragsvolumen</label><input type="number" name="auftragsvolumen" id ="auftragsvolumen1" title ="Volumen des Auftrages" /><br><label for ="abezeichnung" >Auftragsgeber ID</label><input type="number" name="abezeichnung1" id = "abezeichnung1" required title ="ID der Abteilung"/><br><label for = "mName">ProektLeiter ID</label><input type ="number" name ="mName" id = "mName1" required title ="ID des Projektleiters"/><br><input type="submit" id="submit" data-icon="check" value="Speichern" onclick="changeProject(2,'+key+',event)"/><input type="reset" data-icon="delete" value="Abbrechen"/></fieldset></form>';
         $('#newProjekt').append(form);
         
         $("#bezeichnung1").val(entrynames[0]);
@@ -87,7 +87,7 @@ function editProjectList(primaryKey){
 function newProject(){
 
     $('#editForm').remove();
-    var form = '<form id ="editForm" method="post"><fieldset><legend>Projekt Daten eingabe:</legend><label for="projektBezeichnung">Projekt Bezeichnung</label><input type="text" name="projektBezeichnung" id="bezeichnung1" required/><br><label for="projektBeschreibung" >Projekt Beschreibung</label><input type="text" name="projektBeschreibung" id="projektBeschreibung1" required/><br><label for ="beginn">Projekt Beginn</label><input type="date" name="beginn" id="beginn1"title ="Fomrat YY-MM-DD"/><br><label for ="ende">Projekt Ende</label><input type= "date" name="ende" id="ende1" title ="Format: YY_MM_DD"/><br><label for ="auftragsvolumen">Auftragsvolumen</label><input type="number" name="auftragsvolumen" id ="auftragsvolumen1" title ="Auftragsvolumen" /><br><label for ="abezeichnung" >Auftragsgeber Bezeichnung</label><input type="number" name="abezeichnung1" id = "abezeichnung1" required title ="Id Der abteilung"/><br><label for = "mName">ProektLeiter</label><input type ="number" name ="mName" id = "mName1" required title ="ID des Projekteliters"/><br><input type="submit" id="submit" data-icon="check" value="Speichern" onclick="changeProject(1, 0,event)"/><input type="reset" data-icon="delete" value="Abbrechen"/></fieldset></form>';
+    var form = '<form id ="editForm" method="post"><fieldset><legend>Projekt Daten eingabe:</legend><label for="projektBezeichnung">Projekt Bezeichnung</label><input type="text" name="projektBezeichnung" id="bezeichnung1" required/><br><label for="projektBeschreibung" >Projekt Beschreibung</label><input type="text" name="projektBeschreibung" id="projektBeschreibung1" required/><br><label for ="beginn">Projekt Beginn</label><input type="date" name="beginn" id="beginn1"title ="Fomrat YY-MM-DD"/><br><label for ="ende">Projekt Ende</label><input type= "date" name="ende" id="ende1" title ="Format: YY_MM_DD"/><br><label for ="auftragsvolumen">Auftragsvolumen</label><input type="number" name="auftragsvolumen" id ="auftragsvolumen1" title ="Auftragsvolumen" /><br><label for ="abezeichnung" >Auftragsgeber ID</label><input type="number" name="abezeichnung1" id = "abezeichnung1" required title ="Id Der abteilung"/><br><label for = "mName">ProektLeiter ID</label><input type ="number" name ="mName" id = "mName1" required title ="ID des Projekteliters"/><br><input type="submit" id="submit" data-icon="check" value="Speichern" onclick="changeProject(1, 0,event)"/><input type="reset" data-icon="delete" value="Abbrechen"/></fieldset></form>';
  $('#newProjekt').append(form);
 }
 
@@ -123,25 +123,25 @@ function changeProject(option, pk){
         alertstring += "Projektbezeichnung nicht vorhanden\n"; 
         alertFlag = true;
     }
-    else if(beginDatum === null){
+    if(beginDatum === null){
         alertstring += "Falsches Datumformat in Beginndatum\n";
         alertFlag = true;
     }
 
-    else if(endDatum === null){
+    if(endDatum === null){
         alertstring += "Falsches Datumformat in Enddatum\n";
         alertFlag = true;
     }
     
-    else if(isNaN(auftragsvol) == true || auftragsvol == ""){
+    if(isNaN(auftragsvol) == true || auftragsvol == ""){
         alertstring += "Auftragsvolumen ist nicht Nummerisch\n";
         alertFlag = true;
     }
-    else if(isNaN(abteilungName) == true || abteilungName ==""){
+    if(isNaN(abteilungName) == true || abteilungName ==""){
         alertstring += "Abteilungs ID ist nicht Nummerisch\n";
         alertFlag = true;   
     }
-    else if(isNaN(projektLeit) == true || projektLeit == ""){
+    if(isNaN(projektLeit) == true || projektLeit == ""){
         alertstring += "Projektleiter ID ist nicht Nummerisch\n";
         alertFlag = true;  
     }
